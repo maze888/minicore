@@ -1,0 +1,2 @@
+# minicore
+libc supplement library
