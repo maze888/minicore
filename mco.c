@@ -1,25 +1,23 @@
 #include "mco.h"
 
-#include <stdarg.h>
-
-char mco_last_error[1024];
-
+/**
+ * @brief   Return error that occurred in library
+ *
+ * @return  Last error in that occrued in library
+ *
+ */
 const char * mco_get_last_error()
 {
 	return mco_last_error;
 }
 
-void mco_set_last_error(char *fmt, ...)
-{
-	va_list ap;
-
-	memset(mco_last_error, 0x00, sizeof(mco_last_error));
-
-	va_start(ap, fmt);
-	vsnprintf(mco_last_error, sizeof(mco_last_error), fmt, ap);
-	va_end(ap);
-}
-
+/**
+ * @brief   Print hex values through standard output
+ *
+ * @param   p       buffer
+ * @param   p_size  size of buffer
+ *
+ */
 void mco_hex_print(unsigned char *p, int p_size)
 {
 	if ( !p && p_size <= 0 ) return;
@@ -43,4 +41,6 @@ void mco_hex_print(unsigned char *p, int p_size)
 		}
 	}
 	printf("\n");
+
+	fflush(stdout);
 }
