@@ -1,6 +1,15 @@
 #include "mco_properties.h"
 #include "mco_hidden.h"
 
+/**
+ * @brief   INI format file's property getter
+ *
+ * @param   path     INI file path
+ * @param   key      key to find
+ * @param   section  section to find
+ *
+ * @return  Found value
+ */
 char * mco_get_property(const char *path, const char *key, const char *section)
 {
 	char *value = NULL;
