@@ -37,6 +37,16 @@ int mco_right_trim_test()
 	return 1;
 }
 
+int mco_trim_test()
+{
+	char buf[16] = "     ab     "; // five space(left, right)
+	
+	if ( mco_trim(buf) != 10 ) return 0;
+	if ( strlen(buf) != 2 ) return 0;
+	
+	return 1;
+}
+
 int mco_replace_str_test()
 {
 	char buf[64] = "ABC, ABC, ACCABC, BCBCBCBCBC";
@@ -46,6 +56,6 @@ int mco_replace_str_test()
 	if ( !buf_len ) return 0;
 
 	if ( buf_len != strlen(buf2) ) return 0;
-	
+
 	return 1;
 }
