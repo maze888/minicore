@@ -36,3 +36,16 @@ int mco_right_trim_test()
 	
 	return 1;
 }
+
+int mco_replace_str_test()
+{
+	char buf[64] = "ABC, ABC, ACCABC, BCBCBCBCBC";
+	char buf2[] = "AZZZ, AZZZ, ACCAZZZ, ZZZZZZZZZZZZZZZ";
+
+	size_t buf_len = mco_replace_str(buf, sizeof(buf), "BC", "ZZZ");
+	if ( !buf_len ) return 0;
+
+	if ( buf_len != strlen(buf2) ) return 0;
+	
+	return 1;
+}
