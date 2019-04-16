@@ -214,7 +214,13 @@ void mco_get_current_date(char *buf, size_t bsize)
 	strftime(buf, bsize, "%F %T", &tm);
 }
 
-void mco_get_current_datetime(char *datetime, size_t size)
+/**
+ * @brief   Generate datetime format string
+ *
+ * @param   buf    buffer to be saved in datetime format
+ * @param   bsize  buffer size
+ */
+void mco_get_current_datetime(char *buf, size_t bsize)
 {
 	time_t t;
 	struct tm tm;
@@ -230,5 +236,5 @@ void mco_get_current_datetime(char *datetime, size_t size)
 	localtime_r(&t, &tm);
 	
 	strftime(date, sizeof(date), "%F %T", &tm);
-	snprintf(datetime, size, "%s.%ld", date, tv.tv_usec);
+	snprintf(buf, bsize, "%s.%ld", date, tv.tv_usec);
 }
