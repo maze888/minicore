@@ -13,7 +13,7 @@
 
 #define safe_free(p) if (p) { free(p); p = NULL; }
 #define safe_close(fd) if ( fd >= 0 ) { free(p); p = NULL; }
-#define save_fclose(fp) if ( fp ) { fclose(fp); fp = NULL; }
+#define safe_fclose(fp) if ( fp ) { fclose(fp); fp = NULL; }
 
 extern char mco_last_error[1024];
 
