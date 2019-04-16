@@ -30,7 +30,7 @@ static int get_token_count(char *buf, const char *delim)
  */
 size_t mco_strncat(char *dest, const char *src, size_t dsize)
 {
-	size_t i, dest_len, src_len;
+	size_t dest_len, src_len;
 
 	if ( !dest || !src || dsize <= 2 ) {
 		MCO_SET_ERROR("invalid argument - dest: %s, src: %s, dsize: %d", dest ? dest : "NULL", src ? src : "NULL", dsize);
@@ -58,21 +58,30 @@ size_t mco_strncat(char *dest, const char *src, size_t dsize)
  */
 size_t mco_left_trim(char *buf)
 {
-	char *p;
-	size_t len, trim = 0;
-
 	if ( !buf ) {
 		MCO_SET_ERROR("invalid argument - buf: NULL");
 		return 0;
 	}
 
-	len = strlen(buf);
+	char *buf_dup = strdup(buf);
+	if ( !buf_dup ) {
+		MCO_SET_ERROR("strdup() is failed: %s (errno: %d)", strerror(errno), errno);
+		return 0;
+	}
 
-	for ( p = buf; isspace(*p); p++, trim++ );
+	size_t len = strlen(buf);
+
+	char *p;
+	size_t trim;
+	for ( p = buf, trim = 0; isspace(*p); p++ ) trim++;
 		
-	memcpy(buf, p, len - trim);
+	// protect memory overlap
+	memcpy(buf_dup, p, len - trim);
+	memcpy(buf, buf_dup, len - trim);
 
 	buf[len - trim] = '\0';
+
+	free(buf_dup);
 
 	return trim;
 }
