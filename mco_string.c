@@ -8,7 +8,7 @@ static int get_token_count(char *buf, const char *delim)
 
 	tbuf = strdup(buf);
 	if ( !tbuf ) {
-		mco_set_last_error("strdup() is failed: %s (errno: %d)", strerror(errno), errno);
+		MCO_SET_ERROR("strdup() is failed: %s (errno: %d)", strerror(errno), errno);
 		return -1;
 	}
 
@@ -33,14 +33,14 @@ size_t mco_strncat(char *dest, const char *src, size_t dsize)
 	size_t i, dest_len, src_len;
 
 	if ( !dest || !src || dsize <= 2 ) {
-		mco_set_last_error("invalid argument - dest: %s, src: %s, dsize: %d", dest ? dest : "NULL", src ? src : "NULL", dsize);
+		MCO_SET_ERROR("invalid argument - dest: %s, src: %s, dsize: %d", dest ? dest : "NULL", src ? src : "NULL", dsize);
 		return 0;
 	}
 
 	src_len = strlen(src);
 	dest_len = strlen(dest);
 	if ( dest_len + src_len >= dsize ) {
-		mco_set_last_error("not enough buffer");
+		MCO_SET_ERROR("not enough buffer");
 		return 0;
 	}
 
@@ -64,7 +64,7 @@ size_t mco_left_trim(char *buf)
 	size_t len, trim = 0;
 
 	if ( !buf ) {
-		mco_set_last_error("invalid argument - buf: NULL");
+		MCO_SET_ERROR("invalid argument - buf: NULL");
 		return 0;
 	}
 
@@ -92,7 +92,7 @@ size_t mco_right_trim(char *buf)
 	size_t len, trim = 0;
 
 	if ( !buf ) {
-		mco_set_last_error("invalid argument - buf: NULL");
+		MCO_SET_ERROR("invalid argument - buf: NULL");
 		return 0;
 	}
 
@@ -121,7 +121,7 @@ size_t mco_replace_str(char *buf, size_t bsize, const char *fstr, const char *rs
 	size_t buf_len, fstr_len, rstr_len;
 
 	if ( !buf || bsize < 2 || !fstr || !rstr ) {
-		mco_set_last_error("invalid argument - buf: %s, bsize: %lu, fstr: %s, rstr: %s", buf ? buf : "NULL", bsize, fstr ? fstr : "NULL", rstr ? rstr : "NULL");
+		MCO_SET_ERROR("invalid argument - buf: %s, bsize: %lu, fstr: %s, rstr: %s", buf ? buf : "NULL", bsize, fstr ? fstr : "NULL", rstr ? rstr : "NULL");
 		goto out;
 	}
 
@@ -135,7 +135,7 @@ size_t mco_replace_str(char *buf, size_t bsize, const char *fstr, const char *rs
 		if ( fcnt < 0 ) goto out;
 		
 		if ( bsize <= (buf_len + (rstr_len - fstr_len) * fcnt) ) {
-			mco_set_last_error("not enough buffer");
+			MCO_SET_ERROR("not enough buffer");
 			goto out;
 		}
 	}
@@ -143,7 +143,7 @@ size_t mco_replace_str(char *buf, size_t bsize, const char *fstr, const char *rs
 	// protect memory overlap
 	tmp_buf = (char *)malloc(bsize);
 	if ( !tmp_buf ) {
-		mco_set_last_error("calloc() is failed: %s (errno: %d)", strerror(errno), errno);
+		MCO_SET_ERROR("calloc() is failed: %s (errno: %d)", strerror(errno), errno);
 		goto out;
 	}
 
@@ -190,17 +190,28 @@ out:
 	return 0;
 }
 
-void mco_get_current_date(char *date, size_t size)
+/**
+ * @brief   Generate date format string
+ *
+ * @param   buf    buffer to be saved in date format
+ * @param   bsize  buffer size
+ */
+void mco_get_current_date(char *buf, size_t bsize)
 {
 	time_t t;
 	struct tm tm;
+
+	if ( !buf || bsize < 20 ) {
+		MCO_SET_ERROR("invalid argument - buf: %s, bsize: %lu", buf ? buf : "NULL", bsize);
+		return;
+	}
 
 	memset(&tm, 0x00, sizeof(struct tm));
 
 	t = time(NULL);
 	localtime_r(&t, &tm);
 
-	strftime(date, size, "%F %T", &tm);
+	strftime(buf, bsize, "%F %T", &tm);
 }
 
 void mco_get_current_datetime(char *datetime, size_t size)
