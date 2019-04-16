@@ -44,11 +44,9 @@ size_t mco_strncat(char *dest, const char *src, size_t dsize)
 		return 0;
 	}
 
-	for ( i = 0; src[i]; i++ ) dest[dest_len + i] = src[i];
+	memcpy(dest + dest_len, src, src_len);
 
-	dest[dest_len + i] = '\0';
-
-	return dest_len + i;
+	return dest_len + src_len;
 }
 
 /**
