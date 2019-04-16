@@ -11,6 +11,6 @@ ADD_COMPILE_OPTIONS (-Wall -O)
 
 LINK_LIBRARIES (pthread dl)
 
-SET (SRCS mco.c mco_hidden.c mco_string.c mco_properties.c) 
+SET (SRCS mco.c mco_hidden.c mco_string.c mco_properties.c mco_encode.c)
 
 ADD_LIBRARY (${CMAKE_PROJECT_NAME} SHARED ${SRCS})
