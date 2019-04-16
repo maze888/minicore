@@ -14,6 +14,6 @@ INCLUDE_DIRECTORIES (..)
 LINK_DIRECTORIES (..)
 LINK_LIBRARIES (minicore pthread dl)
 
-SET (SRCS string_test.c test_main.c)
+SET (SRCS string_test.c properties_test.c test_main.c)
 
 ADD_EXECUTABLE (test ${SRCS})

@@ -6,11 +6,11 @@ SET (CMAKE_VERBOSE_MAKEFILE false)
 
 SET (CMAKE_C_COMPILER gcc)
 
-ADD_DEFINITIONS(-D_POSIX_C_SOURCE=200809L)
+ADD_DEFINITIONS(-D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE)
 ADD_COMPILE_OPTIONS (-Wall -O)
 
 LINK_LIBRARIES (pthread dl)
 
-SET (SRCS mco.c mco_hidden.c mco_string.c) 
+SET (SRCS mco.c mco_hidden.c mco_string.c mco_properties.c) 
 
 ADD_LIBRARY (${CMAKE_PROJECT_NAME} SHARED ${SRCS})
