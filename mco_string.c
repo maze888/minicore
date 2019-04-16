@@ -189,3 +189,35 @@ out:
 
 	return 0;
 }
+
+void mco_get_current_date(char *date, size_t size)
+{
+	time_t t;
+	struct tm tm;
+
+	memset(&tm, 0x00, sizeof(struct tm));
+
+	t = time(NULL);
+	localtime_r(&t, &tm);
+
+	strftime(date, size, "%F %T", &tm);
+}
+
+void mco_get_current_datetime(char *datetime, size_t size)
+{
+	time_t t;
+	struct tm tm;
+	struct timeval tv;
+	char date[128] = {0};
+
+	memset(&tm, 0x00, sizeof(tm));
+	memset(&tv, 0x00, sizeof(tv));
+
+	gettimeofday(&tv, NULL);
+
+	t = tv.tv_sec;
+	localtime_r(&t, &tm);
+	
+	strftime(date, sizeof(date), "%F %T", &tm);
+	snprintf(datetime, size, "%s.%ld", date, tv.tv_usec);
+}

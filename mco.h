@@ -8,6 +8,8 @@
 #include <stdarg.h>
 #include <ctype.h>
 #include <errno.h>
+#include <time.h>
+#include <sys/time.h>
 
 #define safe_free(p) if (p) { free(p); p = NULL; }
 #define safe_close(fd) if ( fd >= 0 ) { free(p); p = NULL; }

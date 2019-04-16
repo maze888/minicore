@@ -3,9 +3,14 @@
 
 #include "mco.h"
 
+/* String API */
 size_t mco_strncat(char *dest, const char *src, size_t dsize);
 size_t mco_left_trim(char *buf);
 size_t mco_right_trim(char *buf);
 size_t mco_replace_str(char *buf, size_t bsize, const char *fstr, const char *rstr);
+
+/* DateTime API */
+void   mco_get_current_date(char *date, size_t size);
+void   mco_get_current_datetime(char *datetime, size_t size);
 
 #endif
