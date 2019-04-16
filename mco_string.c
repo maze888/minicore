@@ -106,6 +106,25 @@ size_t mco_right_trim(char *buf)
 }
 
 /**
+ * @brief   Left / Right trim from buffer
+ *
+ * @param   buf  buffer
+ *
+ * @return  Length of trimed buffer
+ */
+size_t mco_trim(char *buf)
+{
+	size_t trim, ltrim, rtrim;
+
+	ltrim = mco_left_trim(buf);
+	rtrim = mco_right_trim(buf);
+
+	trim = ltrim + rtrim;
+
+	return trim;
+}
+
+/**
  * @brief   Replace string of buffer
  *
  * @param   buf    buffer
