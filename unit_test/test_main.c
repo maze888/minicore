@@ -12,8 +12,10 @@ int main(int argc, char **argv)
 	fprintf(stderr, "  [%02d] mco_strncat_test()     . . . %s\n", index++, mco_strncat_test() ? "OK" : "NOT OK");
 	fprintf(stderr, "  [%02d] mco_left_trim_test()   . . . %s\n", index++, mco_left_trim_test() ? "OK" : "NOT OK");
 	fprintf(stderr, "  [%02d] mco_right_trim_test()  . . . %s\n", index++, mco_right_trim_test() ? "OK" : "NOT OK");
-	//fprintf(stderr, "  [%02d] mco_trim_test()        . . . %s\n", index++, mco_trim_test() ? "OK" : "NOT OK");
+	fprintf(stderr, "  [%02d] mco_trim_test()        . . . %s\n", index++, mco_trim_test() ? "OK" : "NOT OK");
 	fprintf(stderr, "  [%02d] mco_replace_str_test() . . . %s\n", index++, mco_replace_str_test() ? "OK" : "NOT OK");
+	fprintf(stderr, "  [%02d] mco_cnvt_uppercase()   . . . %s\n", index++, mco_cnvt_uppercase_test() ? "OK" : "NOT OK");
+	fprintf(stderr, "  [%02d] mco_cnvt_lowercase()   . . . %s\n", index++, mco_cnvt_lowercase_test() ? "OK" : "NOT OK");
 	fprintf(stderr, "  [%02d] mco_get_property()     . . . %s\n", index++, mco_properties_test() ? "OK" : "NOT OK");
 
 	if ( strlen(mco_get_last_error()) ) {

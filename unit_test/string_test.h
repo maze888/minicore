@@ -8,5 +8,7 @@ int mco_left_trim_test();
 int mco_right_trim_test();
 int mco_trim_test();
 int mco_replace_str_test();
+int mco_cnvt_uppercase_test();
+int mco_cnvt_lowercase_test();
 
 #endif

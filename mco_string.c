@@ -217,6 +217,26 @@ out:
 }
 
 /**
+ * @brief   Convert to upper case
+ *
+ * @param   buf    buffer to be converted to uppercase
+ */
+void mco_cnvt_uppercase(char *buf)
+{
+	for ( size_t i = 0, len = strlen(buf); i < len; i++ ) buf[i] = toupper(buf[i]);
+}
+
+/**
+ * @brief   Convert to lower case
+ *
+ * @param   buf    buffer to be converted to lowercase
+ */
+void mco_cnvt_lowercase(char *buf)
+{
+	for ( size_t i = 0, len = strlen(buf); i < len; i++ ) buf[i] = tolower(buf[i]);
+}
+
+/**
  * @brief   Generate date format string
  *
  * @param   buf    buffer to be saved in date format
@@ -226,11 +246,6 @@ void mco_get_current_date(char *buf, size_t bsize)
 {
 	time_t t;
 	struct tm tm;
-
-	if ( !buf || bsize < 20 ) {
-		MCO_SET_ERROR("invalid argument - buf: %s, bsize: %lu", buf ? buf : "NULL", bsize);
-		return;
-	}
 
 	memset(&tm, 0x00, sizeof(struct tm));
 

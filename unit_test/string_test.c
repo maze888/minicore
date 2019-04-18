@@ -49,13 +49,35 @@ int mco_trim_test()
 
 int mco_replace_str_test()
 {
-	char buf[64] = "ABC, ABC, ACCABC, BCBCBCBCBC";
-	char buf2[] = "AZZZ, AZZZ, ACCAZZZ, ZZZZZZZZZZZZZZZ";
+	char buf[64] = "BCBC, ABC, ACCABC, BCBCBCBCBC";
+	char buf2[] = "ZZZZZZ, AZZZ, ACCAZZZ, ZZZZZZZZZZZZZZZ";
 
 	size_t buf_len = mco_replace_str(buf, sizeof(buf), "BC", "ZZZ");
 	if ( !buf_len ) return 0;
 
 	if ( buf_len != strlen(buf2) ) return 0;
+
+	return 1;
+}
+
+int mco_cnvt_uppercase_test()
+{
+	char buf[] = "abcd";
+
+	mco_cnvt_uppercase(buf);
+
+	if ( strcmp(buf, "ABCD") != 0 ) return 0;
+
+	return 1;
+}
+
+int mco_cnvt_lowercase_test()
+{
+	char buf[] = "ABCD";
+
+	mco_cnvt_lowercase(buf);
+
+	if ( strcmp(buf, "abcd") != 0 ) return 0;
 
 	return 1;
 }
