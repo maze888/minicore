@@ -2,15 +2,16 @@ CMAKE_MINIMUM_REQUIRED (VERSION 2.8)
 
 PROJECT (minicore)
 
-SET (CMAKE_VERBOSE_MAKEFILE false)
-
-SET (CMAKE_C_COMPILER gcc)
-
-ADD_DEFINITIONS(-D_POSIX_C_SOURCE=200809L -D_GNU_SOURCE)
-ADD_COMPILE_OPTIONS (-Wall -O)
-
 LINK_LIBRARIES (pthread dl)
 
-SET (SRCS mco.c mco_hidden.c mco_string.c mco_properties.c mco_encode.c)
+ADD_COMPILE_OPTIONS (-Wall -g)
 
-ADD_LIBRARY (${CMAKE_PROJECT_NAME} SHARED ${SRCS})
+ADD_DEFINITIONS (-D_GNU_SOURCE)
+
+SET (SRCS mco.c mco_inter.c mco_util.c mco_thread_test.c mco_encode.c mco_properties.c mco_string.c mco_map.c mco_queue.c mco_system.c mco_thread_pool.c)
+
+ADD_LIBRARY (minicore SHARED ${SRCS})
+
+SET (CMAKE_INSTALL_PREFIX ${KMS_PKG_HOME})
+
+INSTALL (TARGETS minicore DESTINATION lib)
