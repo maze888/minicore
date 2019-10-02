@@ -1,5 +1,13 @@
+/**
+ * @file    mco_string.c
+ * @brief   문자열 처리 함수 정의
+ * @date    2019.09.20
+ * @author  naze@dreamsecurity.com
+ *
+ */
+
 #include "mco_string.h"
-#include "mco_hidden.h"
+#include "mco_inter.h"
 
 static int get_token_count(char *buf, const char *delim)
 {
@@ -177,7 +185,7 @@ size_t mco_replace_str(char *buf, size_t bsize, const char *fstr, const char *rs
 	for ( int i = 0; i < buf_len; i++, p++) {
 		if ( buf[i] == fstr[0] ) {
 			if ( memcmp(p, fstr, fstr_len) == 0 ) {
-				memset(tmp_buf, 0x00, bsize);
+				mco_cleanse(tmp_buf, bsize);
 
 				if ( fstr_len == rstr_len ) {
 					memcpy(p, rstr, rstr_len);
@@ -185,11 +193,18 @@ size_t mco_replace_str(char *buf, size_t bsize, const char *fstr, const char *rs
 				else if ( fstr_len > rstr_len ) {
 					size_t plen = strlen(p + fstr_len);
 
+					// copy tail
 					memcpy(tmp_buf, p + fstr_len, plen);
-					memcpy(p + rstr_len, tmp_buf, plen);
-					memcpy(p, rstr, rstr_len);
 
-					p[plen + 1] = '\0';
+					if ( rstr_len == 0 ) { // rstr is ""
+						memcpy(p, tmp_buf, plen);
+						p[plen] = '\0';
+					}
+					else {
+						memcpy(p + rstr_len, tmp_buf, plen);
+						memcpy(p, rstr, rstr_len);
+						p[plen + 1] = '\0';
+					}
 				}
 				else if ( fstr_len < rstr_len ) {
 					size_t plen = strlen(p + fstr_len);
@@ -236,6 +251,17 @@ void mco_cnvt_lowercase(char *buf)
 	for ( size_t i = 0, len = strlen(buf); i < len; i++ ) buf[i] = tolower(buf[i]);
 }
 
+void mco_generate_random_string(const char *pattern, char *buf, size_t bsize)
+{
+	size_t i, pattern_len = strlen(pattern);
+
+	srand(rand());
+
+	for ( i = 0; i < bsize; i++) {
+		buf[i] = pattern[rand() % pattern_len];
+	}
+}
+
 /**
  * @brief   Generate date format string
  *
@@ -247,7 +273,7 @@ void mco_get_current_date(char *buf, size_t bsize)
 	time_t t;
 	struct tm tm;
 
-	memset(&tm, 0x00, sizeof(struct tm));
+	mco_cleanse(&tm, sizeof(struct tm));
 
 	t = time(NULL);
 	localtime_r(&t, &tm);
@@ -268,8 +294,8 @@ void mco_get_current_datetime(char *buf, size_t bsize)
 	struct timeval tv;
 	char date[128] = {0};
 
-	memset(&tm, 0x00, sizeof(tm));
-	memset(&tv, 0x00, sizeof(tv));
+	mco_cleanse(&tm, sizeof(tm));
+	mco_cleanse(&tv, sizeof(tv));
 
 	gettimeofday(&tv, NULL);
 

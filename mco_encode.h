@@ -3,7 +3,7 @@
 
 #include "mco.h"
 
-int mco_bin2str(unsigned char *src, int src_len, char *dst, int dst_len);
-int mco_str2bin(char *src, unsigned char *dst, int *dst_len);
+int mco_bin2str(const unsigned char *src, int src_len, char *dst, int dst_len);
+int mco_str2bin(const char *src, unsigned char *dst, int *dst_len);
 
 #endif

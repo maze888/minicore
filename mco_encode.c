@@ -1,14 +1,22 @@
-#include "mco_encode.h"
-#include "mco_hidden.h"
+/**
+ * @file    mco_encode.c
+ * @brief   인코딩 관련 함수 정의
+ * @date    2019.09.20
+ * @author  naze@dreamsecurity.com
+ *
+ */
 
-int mco_bin2str(unsigned char *src, int src_len, char *dst, int dst_len)
+#include "mco_encode.h"
+#include "mco_inter.h"
+
+int mco_bin2str(const unsigned char *src, int src_len, char *dst, int dst_len)
 {
   if ( dst_len <= src_len * 2 ) {
 		MCO_SET_ERROR("not enough buffer");
     return -1;
   }
 
-  memset(dst, 0x00, dst_len);
+  mco_cleanse(dst, dst_len);
 
   unsigned char uTable[256] = {0};
 
@@ -30,20 +38,20 @@ int mco_bin2str(unsigned char *src, int src_len, char *dst, int dst_len)
   return 0;
 }
 
-int mco_str2bin(char *src, unsigned char *dst, int *dst_len)
+int mco_str2bin(const char *src, unsigned char *dst, int *dst_len)
 {
   int dst_size = strlen(src) / 2;
 
-  if ( *dst_len <= dst_size ) {
-		MCO_SET_ERROR("not enough buffer");
+  if ( *dst_len < dst_size ) {
+		MCO_SET_ERROR("not enough buffer: %d < %d", *dst_len, dst_size);
     return -1;
   }
 
-  memset(dst, 0x00, *dst_len);
+  mco_cleanse(dst, *dst_len);
 
   unsigned char uTable0[512], uTable1[512];
-  memset(uTable0, 0x00, sizeof(uTable0));
-  memset(uTable1, 0x00, sizeof(uTable1));
+  mco_cleanse(uTable0, sizeof(uTable0));
+  mco_cleanse(uTable1, sizeof(uTable1));
 
   uTable1['1'] = 0x01; uTable1['2'] = 0x02; uTable1['3'] = 0x03; uTable1['4'] = 0x04;
   uTable1['5'] = 0x05; uTable1['6'] = 0x06; uTable1['7'] = 0x07; uTable1['8'] = 0x08;

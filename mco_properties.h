@@ -5,5 +5,6 @@
 #include "mco_string.h"
 
 char * mco_get_property(const char *path, const char *key, const char *section);
+int mco_set_property(const char *path, const char *key, const char *value);
 
 #endif
