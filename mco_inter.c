@@ -16,7 +16,7 @@ char mco_last_error[1024];
 void mco_set_last_error(const char *func, char *fmt, ...)
 {
 	va_list ap;
-	char buf[1024] = {0};
+	char buf[sizeof(mco_last_error)-64] = {0};
 
 	memset(mco_last_error, 0x00, sizeof(mco_last_error));
 
